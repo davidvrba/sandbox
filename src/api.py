@@ -75,7 +75,6 @@ def set_flow_rate(volume):
 
 @app.get('/get_flow_rate')
 def get_flow_rate():
-    os.environ['watter'] = str(float(os.environ.get('watter', '0')) + float(volume))
     return os.environ.get('watter', '0')
 
 if __name__ == '__main__':
