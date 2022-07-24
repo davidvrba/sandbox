@@ -68,6 +68,11 @@ def close_main_valve():
     os.environ['irrigation_run'] = 'mainValveOff'
     return 'main valve is closed.'
 
+@app.get('/mainValveOn')
+def close_main_valve():
+    os.environ['irrigation_run'] = 'mainValveOn'
+    return 'main valve is open.'
+
 @app.get('/set_flow_rate')
 def set_flow_rate(volume):
     os.environ['watter'] = str(float(os.environ.get('watter', '0')) + float(volume))
