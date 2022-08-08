@@ -2,19 +2,15 @@ import json
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import os
-from fastapi import Depends
-from src.db import SessionLocal
-from src.crud import create_flowrate
 from src.models import FlowRate
 
 from sqlalchemy import create_engine, insert
-from sqlalchemy.orm import sessionmaker, scoped_session
 from datetime import datetime, time
 
 SQLALCHEMY_DATABASE_URL = os.environ['irrigation_conn_string']
 IOT_CORE_EP = os.environ['IOT_CORE_EP']
-DEVICE = os.environ['device']
-TOPIC = os.environ['topic']
+DEVICE = os.environ['DEVICE']
+TOPIC = os.environ['TOPIC']
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
