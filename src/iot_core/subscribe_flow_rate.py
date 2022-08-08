@@ -41,11 +41,5 @@ myMQTTClient.connect()
 print("Client Connected")
 
 myMQTTClient.subscribe(TOPIC, 1, customCallback)
-print('waiting for the callback. Click to conntinue...')
-x = input()
-
-myMQTTClient.unsubscribe(TOPIC)
-print("Client unsubscribed")
-
-myMQTTClient.disconnect()
-print("Client Disconnected")
+while True:
+	None
