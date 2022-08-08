@@ -16,11 +16,11 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 def insert_flow_rate(data):
     with engine.connect() as conn:
-        payload['flow_timestamp'] = datetime.combine(
+        data['flow_timestamp'] = datetime.combine(
             datetime.today(),
             time(hour=data['flow_hour'], minute=data['flow_minute'], second=data['flow_second'])
         )
-        result = conn.execute(insert(FlowRate), [payload])
+        result = conn.execute(insert(FlowRate), [data])
 
 
 def customCallback(client,userdata,message):
