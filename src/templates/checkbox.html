@@ -2,44 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sample Form</title>
+    <title>Garden Watter Control</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
 </head>
 <body>
+<h1>
+    Garden Watter Control
+</h1>
 
+<div class="form">
 <form method="post">
 
-    <label>Zone 1: </label><input type="number" name="zone_1" value="{{ zone_1 }}"/>
+    <div class="form_input">
+        <label>Zone 1: </label>
+        <input type="number" name="zone_1" value="{{ zone_1 }}"/>
+    </div>
 </br>
-    <label>Zone 2: </label><input type="number" name="zone_2" value="{{ zone_2 }}"/>
+    <div class="form_input">
+        <label>Zone 2: </label>
+        <input type="number" name="zone_2" value="{{ zone_2 }}"/>
+    </div>
 </br>
-    <label>Zone 3: </label><input type="number" name="zone_3" value="{{ zone_3 }}"/>
+    <div class="form_input">
+        <label>Zone 3: </label>
+        <input type="number" name="zone_3" value="{{ zone_3 }}"/>
+    </div>
 </br>
-    <label>Irrigation start: </label><input type="time" name="irrigation_start" value="{{ irrigation_start }}"/>
+    <div class="form_input">
+        <label>Irrigation start: </label>
+        <input type="time" name="irrigation_start" value="{{ irrigation_start }}"/>
+    </div>
 </br>
     <label>Irrigation state: </label>
 </br>
-    <input type="radio" id="irrigation_on" name="irrigation_state" value="True" {{irrigation_on_checked}}>
+    <input type="radio" id="irrigation_on" name="irrigation_state" value="True" {{irrigation_on_checked}}/>
     <label for="irrigation_on">ON</label><br>
-    <input type="radio" id="irrigation_off" name="irrigation_state" value="False" {{irrigation_off_checked}}>
+    <input type="radio" id="irrigation_off" name="irrigation_state" value="False" {{irrigation_off_checked}}/>
     <label for="irrigation_off">OFF</label><br>
 </br>
-    <label>Watter source: </label>
-</br>
+    <div class="input_radio">
+        <label>Watter source: </label>
+        </br>
 
-    <input type="radio" id="watter_tank" name="watter_source" value="1" {{watter_source_watter_tank_checked}}>
-    <label for="watter_tank">watter tank</label><br>
-    <input type="radio" id="other" name="watter_source" value="2" {{watter_source_other_checked}}>
-    <label for="other">other</label><br>
+        <input type="radio" id="watter_tank" name="watter_source" value="1" {{watter_source_watter_tank_checked}}/>
+        <label for="watter_tank">watter tank</label><br>
 
+        <input type="radio" id="other" name="watter_source" value="2" {{watter_source_other_checked}}/>
+        <label for="other">other</label><br>
+    </div>
 
-    <input type="submit">
+    <div class="button"><input type="submit"/></div>
 </form>
+</div>
 
-<p>
-    Total volume today: {{ total_volume_today }} L </br>
-    Zone 1 volume today: {{ zone_volumes[1] }} </br>
-    Zone 2 volume today: {{ zone_volumes[2] }} </br>
-    Zone 3 volume today: {{ zone_volumes[3] }} </br>
-</p>
+<div class="volume_stats">
+    <p>
+        Total volume today: <b>{{ total_volume_today }} </b> L </br>
+        Zone 1 volume today: {{ zone_volumes[1] }} L</br>
+        Zone 2 volume today: {{ zone_volumes[2] }} L</br>
+        Zone 3 volume today: {{ zone_volumes[3] }} L</br>
+    </p>
+</div>
 </body>
 </html>

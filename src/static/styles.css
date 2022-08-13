@@ -1,3 +1,82 @@
 h1 {
     color: green;
 }
+
+body {
+    max-width: 960px;
+    background-color: rgb(242, 255, 213);
+    margin: 0 auto;
+}
+
+div.volume_stats {
+    text-align: left;
+    width: 450px;
+    margin: 0 auto;
+
+}
+
+form {
+    display: inline-block;
+}
+
+h1 {
+    font-size: 20;
+    text-align: center;
+}
+
+.form {
+    width: 450px;
+    height: 400px;
+    margin: 0 auto;
+    border:1px solid rgb(203, 241, 160);
+    padding: 0px;
+}
+
+div.form_input {
+    display: block;
+    width: 450px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+input {
+
+    display: inline-block;
+    width: 100px;
+    padding: 5px;
+}
+
+div.button{
+    text-align: center;
+    margin: 10 auto;
+}
+
+input[type="submit"] {
+    width: 70px;
+    margin: 10px auto;
+    background-color:#eff3e0;
+}
+
+input[type="radio"] {
+    border:1px solid black;
+    font-weight: bold;
+}
+
+input.input_radio {
+    border:1px solid black;
+    font-weight: bold;
+}
+
+label {
+    display: inline-block;
+    width: 140px;
+    text-align: right;
+    padding-right: 10px;
+
+}​
+
+
+
+p {
+    font-family: monospace;
+}

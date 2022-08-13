@@ -169,7 +169,7 @@ def form_post(
         irrigation_on_checked = ''
         irrigation_off_checked = 'checked'
 
-    if watter_source == 1:
+    if watter_source == "1":
         watter_source_watter_tank_checked = 'checked'
         watter_source_other_checked = ''
     else:
