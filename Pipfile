@@ -12,6 +12,7 @@ jinja2 = "*"
 python-multipart = "*"
 AWSIoTPythonSDK = "*"
 typing-extensions = "*"
+netatmo = "*"
 
 [dev-packages]
 

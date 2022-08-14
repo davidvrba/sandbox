@@ -35,8 +35,14 @@
 </br>
     <label>Irrigation state: </label>
 </br>
+    <div class="irrigation_state">
+        <input type="radio" id="irrigation_on_cond" name="irrigation_state" value="True_cond" {{irrigation_on_cond_checked}}/>
+        <label for="irrigation_on_cond">ON if rain less than</label>
+        <input class="rain_input" type="number" id="rain_input" name="rain_input" value="{{ rain_input }}" /> ml
+    </div>
     <input type="radio" id="irrigation_on" name="irrigation_state" value="True" {{irrigation_on_checked}}/>
-    <label for="irrigation_on">ON</label><br>
+    <label for="irrigation_on">ON regardless of rain</label><br>
+
     <input type="radio" id="irrigation_off" name="irrigation_state" value="False" {{irrigation_off_checked}}/>
     <label for="irrigation_off">OFF</label><br>
 </br>
@@ -56,11 +62,18 @@
 </div>
 
 <div class="volume_stats">
+    <h3>Total watter deliverd today</h3>
     <p>
-        Total volume today: <b>{{ total_volume_today }} </b> L </br>
-        Zone 1 volume today: {{ zone_volumes[1] }} L</br>
-        Zone 2 volume today: {{ zone_volumes[2] }} L</br>
-        Zone 3 volume today: {{ zone_volumes[3] }} L</br>
+        Total: <b>{{ total_volume_today }} </b> L </br>
+        Zone 1: {{ zone_volumes[1] }} L</br>
+        Zone 2: {{ zone_volumes[2] }} L</br>
+        Zone 3: {{ zone_volumes[3] }} L</br>
+    </p>
+    <h3>Data From the Rain Gauge</h3>
+    <p>
+        Rain today: {{ rain_data[0] }} ml </br>
+        Rain yesterday: {{ rain_data[1] }} ml </br>
+        Rain 2 days ago: {{ rain_data[2] }} ml </br>
     </p>
 </div>
 </body>
