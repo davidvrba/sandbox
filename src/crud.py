@@ -3,6 +3,12 @@ from sqlalchemy import func, cast, Date
 from . import models
 from datetime import date, timedelta
 
+WATTER_SOURCES = {
+    1: 'Rain tank',
+    2: 'City pipe'
+}
+
+FLOW_RATE_CALIBRATION_CONSTANT = 60 * 6.6
 
 def get_zone_volume(db: Session, zone_id: int):
     row = db.query(
@@ -57,3 +63,60 @@ def create_flowrate(db: Session, data):
     )
     db.add(db_flow_rate)
     db.commit()
+
+
+def get_volume_history(db: Session):
+    rows = (
+        db.query(
+            models.FlowRate,
+            models.FlowRate.flow_timestamp.cast(Date).label("date"),
+            models.FlowRate.zone.label("zone"),
+            func.max(models.FlowRate.total_pulse_count).label("max")
+        )
+        .group_by(models.FlowRate.flow_timestamp.cast(Date), models.FlowRate.zone)
+        .order_by(models.FlowRate.flow_timestamp.cast(Date))
+        .all()
+    )
+    result = []
+    for row in rows:
+        result.append([row.date.strftime('%d.%m.%Y'), row.zone, int(row.max / (FLOW_RATE_CALIBRATION_CONSTANT))])
+
+    rr = {}
+    for r in result:
+        if r[0] not in rr:
+            rr[r[0]] = r[2]
+        else:
+            rr[r[0]] = rr[r[0]] + r[2]
+
+    return list(rr.items())
+
+
+def get_watter_source_distribution(db: Session):
+    rows = (
+        db.query(
+            models.FlowRate,
+            models.FlowRate.flow_timestamp.cast(Date).label("date"),
+            models.FlowRate.watter_source.label("watter_source"),
+            func.max(models.FlowRate.total_pulse_count).label("max")
+        )
+        .group_by(models.FlowRate.flow_timestamp.cast(Date), models.FlowRate.watter_source)
+        .order_by(models.FlowRate.flow_timestamp.cast(Date))
+        .all()
+    )
+    result = []
+    for row in rows:
+        result.append(
+            [
+                row.date.strftime('%d.%m.%Y'),
+                WATTER_SOURCES[row.watter_source],
+                int(row.max / (FLOW_RATE_CALIBRATION_CONSTANT))
+            ]
+        )
+
+    rr = {}
+    for r in result:
+        if r[1] not in rr:
+            rr[r[1]] = r[2]
+        else:
+            rr[r[1]] = rr[r[1]] + r[2]
+    return list(rr.items())

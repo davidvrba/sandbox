@@ -91,3 +91,8 @@ p {
     font-family: monospace;
 }
 
+div.graph {
+    width:900px;
+    margin: 0 auto;
+    height: 400px;
+}

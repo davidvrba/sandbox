@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+        data = JSON.parse('{{ tempdata | tojson }}');
+        chartType = "ColumnChart";
+        containerId = "chart1";
+        options = {"title":"Watter usage"};
+     </script>
+
+    <script src="https://www.gstatic.com/charts/loader.js">
+    </script>
+    <script>
+            // Load the Visualization API and the corechart package
+            google.charts.load('current', {'packages':['corechart']});
+            // Set a callback for when the API is loaded
+            google.charts.setOnLoadCallback(drawChart);
+
+            // This is the callback function which actually draws the chart
+            //function drawChart(){
+            //  google.visualization.drawChart({
+            //    "containerId": containerId,
+            //    "dataTable": data,
+            //    "chartType": chartType,
+            //    "options": options
+            //  });
+           // }
+
+            function drawChart() {
+                var chart_1 = new google.visualization.ColumnChart(document.getElementById('chart1'));
+                var data_1 = new google.visualization.DataTable();
+                data_1.addColumn('string', 'date');
+                data_1.addColumn('number', 'volume');
+                data_1.addRows(JSON.parse('{{ tempdata | tojson }}'));
+                options_1 = {title:"Watter usage", legend: { position: "none" },};
+                chart_1.draw(data_1, options_1);
+
+                var chart_2 = new google.visualization.PieChart(document.getElementById('chart2'));
+                var data_2 = new google.visualization.DataTable();
+                data_2.addColumn('string', 'watter_source');
+                data_2.addColumn('number', 'volume');
+                data_2.addRows(JSON.parse('{{ watter_source | tojson }}'));
+                options_2 = {"title":"Watter usage"};
+                chart_2.draw(data_2, options_2);
+            }
+          </script>
+
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    </head>
+  <body>
+
+    <div class="graph" id="chart1"></div>
+    <div class="graph" id="chart2"></div>
+  </body>
+</html>

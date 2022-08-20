@@ -2,7 +2,7 @@ import os
 import uvicorn
 from fastapi import FastAPI, Depends, Request, Form
 from .db import SessionLocal, engine
-from .crud import get_zone_volume, get_zone_volume_today, get_volume_today, get_volume_per_zone_today
+from .crud import get_zone_volume, get_zone_volume_today, get_volume_today, get_volume_per_zone_today, get_volume_history, get_watter_source_distribution
 
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -11,6 +11,7 @@ from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from datetime import datetime, time, date, timedelta
 from netatmo import WeatherStation
+import json
 
 app = FastAPI()
 
@@ -110,25 +111,15 @@ def get_zone(db = Depends(get_db)):
 
 @app.get("/form")
 def form_post(request: Request, db = Depends(get_db)):
-    zone_1 = int(os.environ.get('zone_1', '0'))
-    zone_2 = int(os.environ.get('zone_2', '0'))
-    zone_3 = int(os.environ.get('zone_3', '0'))
+    zone_1 = int(os.environ.get('zone_1', '50'))
+    zone_2 = int(os.environ.get('zone_2', '10'))
+    zone_3 = int(os.environ.get('zone_3', '10'))
     rain_input = int(os.environ.get('rain_input', '5'))
-    irrigation_start_hour = int(os.environ.get('irrigation_start_hour', 19))
-    irrigation_start_minute = int(os.environ.get('irrigation_start_minute', 30))
+    irrigation_start_hour = int(os.environ.get('irrigation_start_hour', 17))
+    irrigation_start_minute = int(os.environ.get('irrigation_start_minute', 0))
     irrigation_start = time(hour=irrigation_start_hour, minute=irrigation_start_minute, second=0)
 
-    """
-    irrigation_state = bool(os.environ.get('irrigation_state', 'True'))
-    if irrigation_state:
-        irrigation_on_checked = 'checked'
-        irrigation_off_checked = ''
-    else:
-        irrigation_on_checked = ''
-        irrigation_off_checked = 'checked'
-    """
     irrigation_state = os.environ.get('irrigation_state', 'True_cond')
-    print(irrigation_state)
     if irrigation_state == 'True':
         irrigation_on_checked = 'checked'
         irrigation_off_checked = ''
@@ -252,13 +243,12 @@ def get_irrigation_input(request: Request, db = Depends(get_db)):
         if rain_data_today > int(os.environ.get('rain_input', 0)):
             irrigation_on = False
 
-
     result = {
-        'zone_1': os.environ.get('zone_1', '0'),
-        'zone_2': os.environ.get('zone_2', '0'),
-        'zone_3': os.environ.get('zone_3', '0'),
-        'irrigation_start_hour': os.environ.get('irrigation_start_hour', 19),
-        'irrigation_start_minute': os.environ.get('irrigation_start_minute', 30),
+        'zone_1': os.environ.get('zone_1', '50'),
+        'zone_2': os.environ.get('zone_2', '10'),
+        'zone_3': os.environ.get('zone_3', '10'),
+        'irrigation_start_hour': os.environ.get('irrigation_start_hour', 17),
+        'irrigation_start_minute': os.environ.get('irrigation_start_minute', 0),
         'irrigation_on': str(irrigation_on),
         'watter_source': os.environ.get('watter_source', '1'),
     }
@@ -282,6 +272,20 @@ def get_rain_data():
         mtype="sum_rain"
     )
     return [v[0] for v in result['body'].values()]
+
+
+@app.get('/charts')
+def get_test_chart(request: Request, db = Depends(get_db)):
+    data = get_volume_history(db)
+    watter_source_distribution = get_watter_source_distribution(db)
+    return templates.TemplateResponse(
+        'charts.html',
+        context={
+            'request': request,
+            'tempdata': data,
+            'watter_source': watter_source_distribution
+        }
+    )
 
 
 if __name__ == '__main__':

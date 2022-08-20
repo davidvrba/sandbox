@@ -12,6 +12,7 @@ class FlowRate(Base):
     increment = Column(Float)
     total_pulse_count = Column(Integer)
     watter_source = Column(Integer)
+    token = Column(Integer)
 
 
 class Zone(Base):
