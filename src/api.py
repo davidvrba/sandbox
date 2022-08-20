@@ -12,6 +12,7 @@ from pathlib import Path
 from datetime import datetime, time, date, timedelta
 from netatmo import WeatherStation
 import json
+import sys
 
 app = FastAPI()
 
@@ -111,6 +112,9 @@ def get_zone(db = Depends(get_db)):
 
 @app.get("/form")
 def form_post(request: Request, db = Depends(get_db)):
+
+    print(sys.version_info)
+
     zone_1 = int(os.environ.get('zone_1', '50'))
     zone_2 = int(os.environ.get('zone_2', '10'))
     zone_3 = int(os.environ.get('zone_3', '10'))
