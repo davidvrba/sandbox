@@ -163,7 +163,7 @@ def form_post(request: Request, db = Depends(get_db)):
             'watter_source_watter_tank_checked': watter_source_watter_tank_checked,
             'watter_source_other_checked': watter_source_other_checked,
             'zone_volumes': zone_volumes,
-            'rain_data': get_rain_data()
+            'rain_data': [0, 0, 0] # get_rain_data()
         }
     )
 
@@ -226,7 +226,7 @@ def form_post(
             'watter_source_watter_tank_checked': watter_source_watter_tank_checked,
             'watter_source_other_checked': watter_source_other_checked,
             'zone_volumes': zone_volumes,
-            'rain_data': get_rain_data()
+            'rain_data': [0, 0, 0] # get_rain_data()
         }
     )
 
