@@ -261,7 +261,7 @@ def get_rain_gauge():
 
 
 def get_rain_data():
-    date_begin = int(datetime.combine(date.today() - timedelta(2), time.min).timestamp())
+    date_begin = int(datetime.combine(date.today() - timedelta(2), time.min).timestamp()) - 7200
 
     ws = WeatherStation()
     result = ws.get_measure(
